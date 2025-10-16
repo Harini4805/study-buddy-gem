@@ -3,7 +3,9 @@ import ChatMessage from "@/components/ChatMessage";
 import ChatInput from "@/components/ChatInput";
 import { sendMessage, Message } from "@/lib/gemini";
 import { useToast } from "@/components/ui/use-toast";
-import { GraduationCap, Sparkles } from "lucide-react";
+import { GraduationCap, Sparkles, Moon, Sun } from "lucide-react";
+import { useTheme } from "next-themes";
+import { Button } from "@/components/ui/button";
 
 interface DisplayMessage {
   role: "user" | "assistant";
@@ -20,6 +22,7 @@ const Index = () => {
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
+  const { theme, setTheme } = useTheme();
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -72,15 +75,27 @@ const Index = () => {
       {/* Header */}
       <header className="border-b border-border bg-card shadow-sm">
         <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center gap-3">
-            <div className="relative">
-              <GraduationCap className="w-8 h-8 text-primary" />
-              <Sparkles className="w-4 h-4 text-accent absolute -top-1 -right-1" />
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="relative">
+                <GraduationCap className="w-8 h-8 text-primary" />
+                <Sparkles className="w-4 h-4 text-accent absolute -top-1 -right-1" />
+              </div>
+              <div>
+                <h1 className="text-2xl font-bold text-foreground">Course Advisor AI</h1>
+                <p className="text-sm text-muted-foreground">Your personal learning companion</p>
+              </div>
             </div>
-            <div>
-              <h1 className="text-2xl font-bold text-foreground">Course Advisor AI</h1>
-              <p className="text-sm text-muted-foreground">Your personal learning companion</p>
-            </div>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+              className="rounded-full"
+            >
+              <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+              <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+              <span className="sr-only">Toggle theme</span>
+            </Button>
           </div>
         </div>
       </header>

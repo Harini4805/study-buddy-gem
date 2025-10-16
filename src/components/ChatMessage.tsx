@@ -28,16 +28,21 @@ const ChatMessage = ({ role, content, isTyping }: ChatMessageProps) => {
         )}
       </div>
       <div className="flex-1 min-w-0">
-        <div className="whitespace-pre-wrap break-words">
-          {content}
-          {isTyping && (
-            <span className="inline-flex ml-1">
-              <span className="animate-pulse">●</span>
-              <span className="animate-pulse animation-delay-200">●</span>
-              <span className="animate-pulse animation-delay-400">●</span>
-            </span>
-          )}
-        </div>
+        <div 
+          className="whitespace-pre-wrap break-words"
+          dangerouslySetInnerHTML={{ 
+            __html: content
+              .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+              .replace(/\*(.*?)\*/g, '<em>$1</em>')
+          }}
+        />
+        {isTyping && (
+          <span className="inline-flex ml-1">
+            <span className="animate-pulse">●</span>
+            <span className="animate-pulse animation-delay-200">●</span>
+            <span className="animate-pulse animation-delay-400">●</span>
+          </span>
+        )}
       </div>
     </div>
   );
